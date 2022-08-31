@@ -18,7 +18,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = "wss://w.mpp176.tk";
+	this.uri = "ws://n2.artiom.host:1124";
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
