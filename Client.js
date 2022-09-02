@@ -18,7 +18,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = "wss:///sprightly-brioche-94e58b.netlify.app:8443";
+	this.uri = "wss:///sprightly-brioche-94e58b.netlify.app:3000";
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
