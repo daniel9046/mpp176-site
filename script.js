@@ -1396,6 +1396,7 @@ $(function () {
       if (part.vanished) {
         hasOtherDiv = true;
         part.nameDiv.style.display = "none"
+        part.cursorDiv.style.display = "none"
       }
       if (part.tag) {
         hasOtherDiv = true;
