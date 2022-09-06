@@ -1396,7 +1396,6 @@ $(function () {
       if (part.vanished) {
         hasOtherDiv = true;
         part.nameDiv.style.display = "none"
-        part.cursorDiv.style.display = "none"
       }
       if (part.tag) {
         hasOtherDiv = true;
@@ -1446,7 +1445,7 @@ $(function () {
         div.style.backgroundColor = part.color || "#777"
         div.textContent = part.name || "";
         part.cursorDiv.appendChild(div);
-
+        if(part.vanished) {  part.cursorDiv.style.display = "none" }
       } else {
         part.cursorDiv = undefined;
       }
