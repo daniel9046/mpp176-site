@@ -302,7 +302,8 @@ $(function () {
       if (typeof lang === "undefined") lang = language;
       $(".translate").each(function (i, ele) {
         var th = $(this);
-        if (ele.tagName && ele.tagName.toLowerCase() == "input") {
+        if (ele.
+            Name && ele.tagName.toLowerCase() == "input") {
           if (typeof ele.placeholder != "undefined") {
             th.attr("placeholder", get(th.attr("placeholder"), lang))
           }
@@ -1402,7 +1403,7 @@ $(function () {
         var tagDiv = document.createElement("div");
         tagDiv.className = "nametag";
         tagDiv.textContent = tagText || "";
-        tagDiv.style.backgroundColor = tagColor(part.tag);
+        tagDiv.style.backgroundColor = part.tagcolor || tagColor(part.tag);
         tagDiv.id = 'nametag-' + part._id;
         part.nameDiv.appendChild(tagDiv);
       }
