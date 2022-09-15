@@ -3198,7 +3198,7 @@ $(function () {
         var isSpecialDm = false;
 
         if (gShowTimestampsInChat) liString += '<span class="timestamp"/>';
-        if(msg.sender.tag) {
+        if(msg.sender.tag != undefined) {
           liString += `<span class="nametag">${msg.sender.tag}</span>`;
         }
         if (msg.m === 'dm') {
