@@ -3199,9 +3199,9 @@ $(function () {
 
         if (gShowTimestampsInChat) liString += '<span class="timestamp"/>';
         console.log(msg)
-        if(msg.sender.tag != undefined) {
-          liString += `<span class="nametag">${msg.sender.tag}</span>`;
-        }
+//         if(msg.p.tag != undefined) {
+//           liString += `<span class="nametag">${msg.p.tag}</span>`;
+//         }
         if (msg.m === 'dm') {
           if (msg.sender._id === gClient.user._id) { //sent dm
             liString += '<span class="sentDm"/>';
