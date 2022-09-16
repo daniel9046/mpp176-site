@@ -3196,11 +3196,19 @@ $(function () {
         var liString = '<li>';
 
         var isSpecialDm = false;
-
+        function tagColor(tag) {
+              if (typeof tag === 'object') return tag.color;
+              if (tag === 'BOT') return '#55f';
+              if (tag === 'OWNER') return '#a00';
+              if (tag === 'ADMIN') return '#f55';
+              if (tag === 'MOD') return '#0a0';
+              if (tag === 'MEDIA') return '#f5f';
+              return '#777';
+        }
         if (gShowTimestampsInChat) liString += '<span class="timestamp"/>';
         console.log(msg)
         if(msg.p.tag != undefined) {
-          liString += `<span class="nametag">${msg.p.tag}</span>`;
+          liString += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};" class="nametag">${msg.p.tag}</span>`;
         }
         if (msg.m === 'dm') {
           if (msg.sender._id === gClient.user._id) { //sent dm
