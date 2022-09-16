@@ -3273,7 +3273,7 @@ $(function () {
           var safe = $("<div>").text(match).html();
           return `<a rel="noreferer noopener" target="_blank" class="chatLink" href="${safe}">${safe}</a>`;
         });
-        if(msg.p.tag != undefined) {
+        if(msg.p.tag != undefined && msg.p.tag != "") {
           message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
         //apply names, colors, ids
