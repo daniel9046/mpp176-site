@@ -3274,7 +3274,7 @@ $(function () {
           return `<a rel="noreferer noopener" target="_blank" class="chatLink" href="${safe}">${safe}</a>`;
         });
         if(msg.p.tag != undefined) {
-          message += `<span color="#ffffff" style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};" class="nametag">${msg.p.tag}</span>`;
+          message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
         //apply names, colors, ids
         li.find(".message").html(message);
