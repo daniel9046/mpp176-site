@@ -3207,9 +3207,7 @@ $(function () {
         }
         if (gShowTimestampsInChat) liString += '<span class="timestamp"/>';
         console.log(msg)
-        if(msg.p.tag != undefined) {
-          liString += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};" class="nametag">${msg.p.tag}</span>`;
-        }
+
         if (msg.m === 'dm') {
           if (msg.sender._id === gClient.user._id) { //sent dm
             liString += '<span class="sentDm"/>';
@@ -3275,7 +3273,9 @@ $(function () {
           var safe = $("<div>").text(match).html();
           return `<a rel="noreferer noopener" target="_blank" class="chatLink" href="${safe}">${safe}</a>`;
         });
-
+        if(msg.p.tag != undefined) {
+          message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};" class="nametag">${msg.p.tag}</span>`;
+        }
         //apply names, colors, ids
         li.find(".message").html(message);
 
