@@ -194,12 +194,11 @@
 <script>
 window.onload = function() {
 	setInterval(function(){
-	var epicrank = MPP.client.getOwnParticipant().rank
 
 	//show admin buttons
 	  MPP.client.on('hi', m => {
-	    console.log(epicrank == "admin")
-	    if (epicrank == "admin") {
+	    console.log(MPP.client.getOwnParticipant().rank == "admin")
+	    if (MPP.client.getOwnParticipant().rank == "admin") {
 	      $("#vanish-btn").show()
 	      $("#getcrown-btn").show()
 	      $("#setev1-btn").show()
