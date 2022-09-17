@@ -2368,22 +2368,18 @@ $(function () {
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
-        if (localStorage.password) {
+        if (MPP.client.getOwnParticipant().rank == "admin") {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
               if (confirm("Give room ownership to " + part.name + "?"))
                 gClient.sendArray([{ m: "admchown", _id: part.id }]);
             });
-      }
-      if (localStorage.password) {
         $('<div class="menu-item set-name">Set Color</div>').appendTo(menu)
           .on("mousedown touchstart", function (evt) {
             var a2 = prompt("What name?", part.name);
             if (a2 === null) return;
             gClient.sendArray([{ m: "adminuserset",  _id: part._id, set:{ color: a2 }}]);
           });
-      }
-      if (localStorage.password) {
         $('<div class="menu-item set-name">Set Name</div>').appendTo(menu)
           .on("mousedown touchstart", function (evt) {
             var a = prompt("What name?", part.name);
