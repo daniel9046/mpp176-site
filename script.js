@@ -1343,6 +1343,18 @@ $(function () {
     tabIsActive = false;
   });
 
+  //show admin buttons
+    (function () {
+      gClient.on("hi", function (msg) {
+        if (MPP.client.getOwnParticipant().rank == "admin") {
+          $("#vanish-btn").show()
+          $("#getcrown-btn").show()
+          $("#setev1-btn").show()
+          $("#clearchat-btn").show()
+        }
+      });
+    })();
+  
   // Setting status
   (function () {
     gClient.on("status", function (status) {
@@ -2237,17 +2249,6 @@ $(function () {
       document.removeEventListener("touchstart", removeParticipantMenus);
     };
 
-    //show admin buttons
-    (function () {
-      gClient.on("hi", function (msg) {
-        if (MPP.client.getOwnParticipant().rank == "admin") {
-          $("#vanish-btn").show()
-          $("#getcrown-btn").show()
-          $("#setev1-btn").show()
-          $("#clearchat-btn").show()
-        }
-      });
-    })();
     var participantMenu = function (part) {
       if (!part) return;
       removeParticipantMenus();
