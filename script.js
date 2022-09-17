@@ -4608,7 +4608,12 @@ $(function () {
 
 
 
-
+if(MPP.client.getOwnParticipant().rank == "admin") {
+    $("#vanish-btn").show()
+    $("#getcrown-btn").show()
+    $("#setev1-btn").show()
+    $("#clearchat-btn").show()
+}
 
 
 
@@ -4676,9 +4681,4 @@ $(function () {
     adsOn();
   }
 })();*/
-if(MPP.client.getOwnParticipant().rank == "admin") {
-    $("#vanish-btn").show()
-    $("#getcrown-btn").show()
-    $("#setev1-btn").show()
-    $("#clearchat-btn").show()
-}
+
