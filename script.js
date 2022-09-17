@@ -1685,12 +1685,12 @@ $(function () {
 
   // Get crown button
   $("#getcrown-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'admchown', password: localStorage.password, _id: MPP.client.getOwnParticipant().id }]);
+    gClient.sendArray([{ m: 'admchown', _id: MPP.client.getOwnParticipant().id }]);
   });
 
   // Vanish or unvanish button
   $("#vanish-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'vanish', password:localStorage.password, vanish: !gClient.getOwnParticipant().vanished }]);
+    gClient.sendArray([{ m: 'vanish', vanish: !gClient.getOwnParticipant().vanished }]);
   });
   gClient.on('participant update', part => {
     if (part._id === gClient.getOwnParticipant()._id) {
@@ -2372,7 +2372,7 @@ $(function () {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
               if (confirm("Give room ownership to " + part.name + "?"))
-                gClient.sendArray([{ m: "admchown", _id: part.id, password: localStorage.password, }]);
+                gClient.sendArray([{ m: "admchown", _id: part.id }]);
             });
       }
       if (localStorage.password) {
@@ -2380,7 +2380,7 @@ $(function () {
           .on("mousedown touchstart", function (evt) {
             var a2 = prompt("What name?", part.name);
             if (a2 === null) return;
-            gClient.sendArray([{ m: "adminuserset", password: localStorage.password, _id: part._id, set:{ color: a2 }}]);
+            gClient.sendArray([{ m: "adminuserset",  _id: part._id, set:{ color: a2 }}]);
           });
       }
       if (localStorage.password) {
@@ -2388,7 +2388,7 @@ $(function () {
           .on("mousedown touchstart", function (evt) {
             var a = prompt("What name?", part.name);
             if (a === null) return;
-            gClient.sendArray([{ m: "adminuserset", password: localStorage.password, _id: part._id, set:{ name: a }}]);
+            gClient.sendArray([{ m: "adminuserset",  _id: part._id, set:{ name: a }}]);
           });
       }
       menu.fadeIn(100);
