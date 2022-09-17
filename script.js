@@ -2237,6 +2237,17 @@ $(function () {
       document.removeEventListener("touchstart", removeParticipantMenus);
     };
 
+    //show admin buttons
+    (function () {
+      gClient.on("hi", function (msg) {
+        if (gClient.getOwnParticipant().rank == "admin") {
+          $("#vanish-btn").show()
+          $("#getcrown-btn").show()
+          $("#setev1-btn").show()
+          $("#clearchat-btn").show()
+        }
+      });
+    })();
     var participantMenu = function (part) {
       if (!part) return;
       removeParticipantMenus();
@@ -2368,13 +2379,6 @@ $(function () {
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
-       //show admin buttons
-  if(MPP.client.getOwnParticipant().rank == "admin") {
-    $("#vanish-btn").show()
-    $("#getcrown-btn").show()
-    $("#setev1-btn").show()
-    $("#clearchat-btn").show()
-  }
         if (MPP.client.getOwnParticipant().rank == "admin") {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
