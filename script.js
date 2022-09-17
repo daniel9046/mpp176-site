@@ -1685,7 +1685,7 @@ $(function () {
 
   // Get crown button
   $("#getcrown-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'admchown', password: localStorage.password, _id: MPP.client.getOwnParticipant()._id }]);
+    gClient.sendArray([{ m: 'admchown', password: localStorage.password, _id: MPP.client.getOwnParticipant().id }]);
   });
 
   // Vanish or unvanish button
