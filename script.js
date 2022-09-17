@@ -1345,7 +1345,7 @@ $(function () {
 
   //show admin buttons
     (function () {
-        if (gClient.getOwnParticipant().rank == "admin") {
+        if (MPP.client.getOwnParticipant().rank == "admin") {
           $("#vanish-btn").show()
           $("#getcrown-btn").show()
           $("#setev1-btn").show()
