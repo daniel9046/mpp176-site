@@ -2397,18 +2397,7 @@ $(function () {
 
 
 
-//show admin buttons
-    (function () {
-      gClient.on('hi', m => {
-        console.log(gClient.getOwnParticipant().rank == "admin")
-        if (gClient.getOwnParticipant().rank == "admin") {
-          $("#vanish-btn").show()
-          $("#getcrown-btn").show()
-          $("#setev1-btn").show()
-          $("#clearchat-btn").show()
-        }
-      })
-    })();
+
 
 
 
@@ -4464,9 +4453,9 @@ $(function () {
 
 
 
-
-
-
+setInterval(function(){
+var epicrank = MPP.client.getOwnParticipant().rank
+}, 100)
 
 
 
@@ -4689,3 +4678,15 @@ $(function () {
     adsOn();
   }
 })();*/
+//show admin buttons
+(function () {
+  gClient.on('hi', m => {
+    console.log(epicrank == "admin")
+    if (epicrank == "admin") {
+      $("#vanish-btn").show()
+      $("#getcrown-btn").show()
+      $("#setev1-btn").show()
+      $("#clearchat-btn").show()
+    }
+  })
+})();
