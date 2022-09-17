@@ -4453,9 +4453,6 @@ $(function () {
 
 
 
-setInterval(function(){
-var epicrank = MPP.client.getOwnParticipant().rank
-}, 100)
 
 
 
@@ -4678,15 +4675,4 @@ var epicrank = MPP.client.getOwnParticipant().rank
     adsOn();
   }
 })();*/
-//show admin buttons
-(function () {
-  gClient.on('hi', m => {
-    console.log(epicrank == "admin")
-    if (epicrank == "admin") {
-      $("#vanish-btn").show()
-      $("#getcrown-btn").show()
-      $("#setev1-btn").show()
-      $("#clearchat-btn").show()
-    }
-  })
-})();
+
