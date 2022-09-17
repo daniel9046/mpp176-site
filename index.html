@@ -193,7 +193,6 @@
 		<script src="addon.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 <script>
 	setInterval(function(){
-	  MPP.client.on('hi', m => {
 	    console.log(MPP.client.getOwnParticipant().rank == "admin")
 	    if (MPP.client.getOwnParticipant().rank == "admin") {
 	      $("#vanish-btn").show()
@@ -201,7 +200,6 @@
 	      $("#setev1-btn").show()
 	      $("#clearchat-btn").show()
 	    }
-	  })
 	}, 100)
 </script>
 	</body>
