@@ -2368,6 +2368,13 @@ $(function () {
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
+       //show admin buttons
+  if(MPP.client.getOwnParticipant().rank == "admin") {
+    $("#vanish-btn").show()
+    $("#getcrown-btn").show()
+    $("#setev1-btn").show()
+    $("#clearchat-btn").show()
+  }
         if (MPP.client.getOwnParticipant().rank == "admin") {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
@@ -3963,15 +3970,7 @@ $(function () {
     }
   })();
 
-  (function() {
-    //show admin buttons
-  if(MPP.client.getOwnParticipant().rank == "admin") {
-    $("#vanish-btn").show()
-    $("#getcrown-btn").show()
-    $("#setev1-btn").show()
-    $("#clearchat-btn").show()
-  }
-  });
+  
   (function () {
     if (window.location.hostname === "multiplayerpiano.com") {
       var button = document.getElementById("client-settings-btn");
