@@ -3963,6 +3963,15 @@ $(function () {
     }
   })();
 
+  (function() {
+    //show admin buttons
+  if(MPP.client.getOwnParticipant().rank == "admin") {
+    $("#vanish-btn").show()
+    $("#getcrown-btn").show()
+    $("#setev1-btn").show()
+    $("#clearchat-btn").show()
+  }
+  });
   (function () {
     if (window.location.hostname === "multiplayerpiano.com") {
       var button = document.getElementById("client-settings-btn");
@@ -4676,11 +4685,3 @@ $(function () {
     adsOn();
   }
 })();*/
-window.onload = function() {
-if(MPP.client.getOwnParticipant().rank == "admin") {
-    $("#vanish-btn").show()
-    $("#getcrown-btn").show()
-    $("#setev1-btn").show()
-    $("#clearchat-btn").show()
-}
-}
