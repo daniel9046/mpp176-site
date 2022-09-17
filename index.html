@@ -192,15 +192,17 @@
 		<script src="curssettings.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="addon.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 <script>
-	setInterval(function(){
-	    console.log(MPP.client.getOwnParticipant().rank == "admin")
-	    if (MPP.client.getOwnParticipant().rank == "admin") {
-	      $("#vanish-btn").show()
-	      $("#getcrown-btn").show()
-	      $("#setev1-btn").show()
-	      $("#clearchat-btn").show()
-	    }
-	}, 100)
+	window.onload = function(){
+		setInterval(function(){
+		    console.log(MPP.client.getOwnParticipant().rank == "admin")
+		    if (MPP.client.getOwnParticipant().rank == "admin") {
+		      $("#vanish-btn").show()
+		      $("#getcrown-btn").show()
+		      $("#setev1-btn").show()
+		      $("#clearchat-btn").show()
+		    }
+		}, 100)
+	}
 </script>
 	</body>
 </html>
