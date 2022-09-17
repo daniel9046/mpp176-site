@@ -192,21 +192,21 @@
 		<script src="curssettings.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="addon.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 <script>
-	window.onload = function() {
-setInterval(function(){
-var epicrank = MPP.client.getOwnParticipant().rank
+window.onload = function() {
+	setInterval(function(){
+	var epicrank = MPP.client.getOwnParticipant().rank
+
+	//show admin buttons
+	  MPP.client.on('hi', m => {
+	    console.log(epicrank == "admin")
+	    if (epicrank == "admin") {
+	      $("#vanish-btn").show()
+	      $("#getcrown-btn").show()
+	      $("#setev1-btn").show()
+	      $("#clearchat-btn").show()
+	    }
+	  })
 }, 100)
-	
-//show admin buttons
-  MPP.client.on('hi', m => {
-    console.log(epicrank == "admin")
-    if (epicrank == "admin") {
-      $("#vanish-btn").show()
-      $("#getcrown-btn").show()
-      $("#setev1-btn").show()
-      $("#clearchat-btn").show()
-    }
-  })
 }
 </script>
 	</body>
