@@ -192,10 +192,7 @@
 		<script src="curssettings.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="addon.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 <script>
-window.onload = function() {
 	setInterval(function(){
-
-	//show admin buttons
 	  MPP.client.on('hi', m => {
 	    console.log(MPP.client.getOwnParticipant().rank == "admin")
 	    if (MPP.client.getOwnParticipant().rank == "admin") {
@@ -205,8 +202,7 @@ window.onload = function() {
 	      $("#clearchat-btn").show()
 	    }
 	  })
-}, 100)
-}
+	}, 100)
 </script>
 	</body>
 </html>
