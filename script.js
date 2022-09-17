@@ -2368,7 +2368,7 @@ $(function () {
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
-        if (gClient.getOwnParticipant().rank == "admin") {
+        if (MPP.client.getOwnParticipant().rank == "admin") {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
               if (confirm("Give room ownership to " + part.name + "?"))
@@ -2390,12 +2390,7 @@ $(function () {
       menu.fadeIn(100);
     };
   })();
-if(gClient.getOwnParticipant().rank == "admin") {
-    $("#vanish-btn").show()
-    $("#getcrown-btn").show()
-    $("#setev1-btn").show()
-    $("#clearchat-btn").show()
-}
+
 
 
 
@@ -4681,4 +4676,11 @@ if(gClient.getOwnParticipant().rank == "admin") {
     adsOn();
   }
 })();*/
-
+window.onload = function() {
+if(MPP.client.getOwnParticipant().rank == "admin") {
+    $("#vanish-btn").show()
+    $("#getcrown-btn").show()
+    $("#setev1-btn").show()
+    $("#clearchat-btn").show()
+}
+}
