@@ -3340,7 +3340,7 @@ $(function () {
     }
         
         if(msg.p.tag != undefined && msg.p.tag != "") {
-          message += `<span style="background-color:  ${msg.p.tagcolor || gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
+          message += `<span style="background-color:  ${msg.p.tagColor || gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
 
         //apply names, colors, ids
