@@ -1469,7 +1469,7 @@ $(function () {
         var tagDiv = document.createElement("div");
         tagDiv.className = "nametag";
         tagDiv.textContent = tagText || "";
-        tagDiv.style.backgroundColor = tagColor(part.tag);
+        tagDiv.style.backgroundColor = tagColor(part.tag) || part.tagColor;
         tagDiv.id = 'nametag-' + part._id;
         part.nameDiv.appendChild(tagDiv);
       }
@@ -3334,6 +3334,10 @@ $(function () {
           }
           else return match;
         });
+        
+        if(msg.p.tag != undefined && msg.p.tag != "") {
+          message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
+        }
 
         //apply names, colors, ids
         li.find(".message").html(marked.parseInline(message));
