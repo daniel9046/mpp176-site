@@ -142,6 +142,8 @@ Client.prototype.bindEventListeners = function() {
 	var self = this;
 	this.on("hi", function(msg) {
 		self.user = msg.u;
+		self.token = msg.token;
+		localStorage.token = msg.token;
 		self.receiveServerTime(msg.t, msg.e || undefined);
 		if(self.desiredChannelId) {
 			self.setChannel();
