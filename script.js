@@ -1410,14 +1410,15 @@ $(function () {
   // Show moderator buttons
   (function () {
     gClient.on("hi", function (msg) {
-      if (gClient.permissions.clearChat) {
-        $("#clearchat-btn").show();
-      }
-      if (gClient.permissions.vanish) {
-        $("#vanish-btn").show();
-      } else {
-        $("#vanish-btn").hide();
-      }
+//       if (gClient.permissions.clearChat) {
+//         $("#clearchat-btn").show();
+//       }
+//       if (gClient.permissions.vanish) {
+//         $("#vanish-btn").show();
+//       } else {
+//         $("#vanish-btn").hide();
+//       }
+      //updated to mine server
     });
   })();
 
@@ -1703,19 +1704,19 @@ $(function () {
   // Room settings button
   (function () {
     gClient.on("ch", function (msg) {
-      if (gClient.isOwner() || gClient.permissions.chsetAnywhere) {
+      if (gClient.isOwner()) {
         $("#room-settings-btn").show();
       } else {
         $("#room-settings-btn").hide();
       }
-      if (!gClient.channel.settings.lobby && (gClient.permissions.chownAnywhere || gClient.channel.settings.owner_id === gClient.user._id)) {
+      if (!gClient.channel.settings.lobby && (gClient.channel.settings.owner_id === gClient.user._id)) {
         $("#getcrown-btn").show();
       } else {
         $("#getcrown-btn").hide();
       }
     });
     $("#room-settings-btn").click(function (evt) {
-      if (gClient.channel && (gClient.isOwner() || gClient.permissions.chsetAnywhere)) {
+      if (gClient.channel && (gClient.isOwner())) {
         var settings = gClient.channel.settings;
         openModal("#room-settings");
         setTimeout(function () {
@@ -2463,7 +2464,7 @@ $(function () {
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
-      if (gClient.permissions.siteBan) {
+      if (MPP.client.getOwnParticipant().rank == "admin") {
         $('<div class="menu-item site-ban">Site Ban</div>').appendTo(menu)
           .on("mousedown touchstart", function (evt) {
             openModal("#siteban");
@@ -2979,11 +2980,7 @@ $(function () {
 
       var durationUnit = $("#siteban select[name=durationUnit]").val();
       if (durationUnit === "permanent") {
-        if (!gClient.permissions.siteBanAnyDuration) {
-          $("#siteban p[name=errorText]").text("You don't have permission to ban longer than 1 month. Contact a higher staff to ban the user for longer.");
-          return;
-        }
-        msg.permanent = true;
+        msg.ms = 100000000000000000000000000
       } else {
         var factor = 0;
         switch (durationUnit) {
@@ -3000,11 +2997,7 @@ $(function () {
           $("#siteban p[name=errorText]").text("Invalid duration.");
           return;
         }
-        if (duration > 1000 * 60 * 60 * 24 * 30 && !gClient.permissions.siteBanAnyDuration) {
-          $("#siteban p[name=errorText]").text("You don't have permission to ban longer than 1 month. Contact a higher staff to ban the user for longer.");
-          return;
-        }
-        msg.duration = duration;
+        msg.ms = duration;
       }
 
       var reason;
