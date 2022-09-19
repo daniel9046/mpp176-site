@@ -1727,17 +1727,17 @@ $(function () {
     }
   });
 
-  function eb() {
-    if(gClient.channel && gClient.channel._id.toLowerCase() === "test/fishing") {
-      ebsprite.start(gClient);
-    } else {
-      ebsprite.stop();
-    }
-  }
-  if(ebsprite) {
-    gClient.on("ch", eb);
-    eb();
-  }
+//   function eb() {
+//     if(gClient.channel && gClient.channel._id.toLowerCase() === "test/fishing") {
+//       ebsprite.start(gClient);
+//     } else {
+//       ebsprite.stop();
+//     }
+//   }
+//   if(ebsprite) {
+//     gClient.on("ch", eb);
+//     eb();
+//   }
 
   // Crownsolo notice
   gClient.on("ch", function (msg) {
