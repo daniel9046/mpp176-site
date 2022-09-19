@@ -1,4 +1,3 @@
-
 // 钢琴
 
 $(function () {
@@ -6,9 +5,59 @@ $(function () {
   console.log("%cWelcome to MPP's developer console!", "color:blue; font-size:20px;");
   console.log("%cCheck out the source code: https://github.com/LapisHusky/mppclone/tree/main/client\nGuide for coders and bot developers: https://docs.google.com/document/d/1OrxwdLD1l1TE8iau6ToETVmnLuLXyGBhA0VfAY1Lf14/edit?usp=sharing", "color:gray; font-size:12px;")
 
+  const loadScript = function (url) {
+    return new Promise(function (resolve, reject) {
+      const script = document.createElement('script');
+        script.src = url;
 
+        script.addEventListener('load', function () {
+            // The script is loaded completely
+            resolve(true);
+        });
 
+        document.head.appendChild(script);
+    });
+  };
+  
+  function setupMarkdown() {
+    var renderer = new marked.Renderer();
+    renderer.image = function (text) {
+      return text;
+    };
+    renderer.link = function (href, title, text) {
+        if (this.options.sanitize) {
+            try {
+                let prot = decodeURIComponent(unescape(href))
+                    .replace(/[^\w:]/g, "")
+                    .toLowerCase();
 
+                if (prot.indexOf("javascript:") === 0 || prot.indexOf("vbscript:") === 0 || prot.indexOf("data:") === 0) {
+                    return "";
+                }
+            } catch (e) {
+                return "";
+            }
+        }
+
+        // Only interpret links that contain a protocol
+        if (!text.startsWith("http://") && !text.startsWith("https://")) {
+            return text;
+        }
+
+        return `<a href="${ href }" target="_blank">${ text }</a>`;
+    };
+    marked.setOptions({
+      renderer: renderer
+    });
+  }
+  
+  if (!window.marked) {
+    loadScript("https://cdn.jsdelivr.net/npm/marked/marked.min.js").then(() => {
+      setupMarkdown();
+    });
+  } else {
+      setupMarkdown();
+  }
 
   var test_mode = (window.location.hash && window.location.hash.match(/^(?:#.+)*#test(?:#.+)*$/i));
 
@@ -302,8 +351,7 @@ $(function () {
       if (typeof lang === "undefined") lang = language;
       $(".translate").each(function (i, ele) {
         var th = $(this);
-        if (ele.
-            Name && ele.tagName.toLowerCase() == "input") {
+        if (ele.tagName && ele.tagName.toLowerCase() == "input") {
           if (typeof ele.placeholder != "undefined") {
             th.attr("placeholder", get(th.attr("placeholder"), lang))
           }
@@ -1343,7 +1391,6 @@ $(function () {
     tabIsActive = false;
   });
 
-  
   // Setting status
   (function () {
     gClient.on("status", function (status) {
@@ -1360,7 +1407,20 @@ $(function () {
     });
   })();
 
- 
+  // Show moderator buttons
+  (function () {
+    gClient.on("hi", function (msg) {
+      if (gClient.permissions.clearChat) {
+        $("#clearchat-btn").show();
+      }
+      if (gClient.permissions.vanish) {
+        $("#vanish-btn").show();
+      } else {
+        $("#vanish-btn").hide();
+      }
+    });
+  })();
+
   var participantTouchhandler; //declare this outside of the smaller functions so it can be used below and setup later
 
   // Handle changes to participants
@@ -1397,14 +1457,19 @@ $(function () {
       var hasOtherDiv = false;
       if (part.vanished) {
         hasOtherDiv = true;
-        part.nameDiv.style.display = "none"
+        var vanishDiv = document.createElement("div");
+        vanishDiv.className = "nametag";
+        vanishDiv.textContent = 'VANISH';
+        vanishDiv.style.backgroundColor = '#00ffcc';
+        vanishDiv.id = 'namevanish-' + part._id;
+        part.nameDiv.appendChild(vanishDiv);
       }
       if (part.tag) {
         hasOtherDiv = true;
         var tagDiv = document.createElement("div");
         tagDiv.className = "nametag";
         tagDiv.textContent = tagText || "";
-        tagDiv.style.backgroundColor = part.tagcolor || tagColor(part.tag);
+        tagDiv.style.backgroundColor = tagColor(part.tag);
         tagDiv.id = 'nametag-' + part._id;
         part.nameDiv.appendChild(tagDiv);
       }
@@ -1447,7 +1512,7 @@ $(function () {
         div.style.backgroundColor = part.color || "#777"
         div.textContent = part.name || "";
         part.cursorDiv.appendChild(div);
-        if(part.vanished) {  part.cursorDiv.style.display = "none" }
+
       } else {
         part.cursorDiv = undefined;
       }
@@ -1638,14 +1703,19 @@ $(function () {
   // Room settings button
   (function () {
     gClient.on("ch", function (msg) {
-      if (gClient.isOwner()) {
+      if (gClient.isOwner() || gClient.permissions.chsetAnywhere) {
         $("#room-settings-btn").show();
       } else {
         $("#room-settings-btn").hide();
       }
-    })
+      if (!gClient.channel.settings.lobby && (gClient.permissions.chownAnywhere || gClient.channel.settings.owner_id === gClient.user._id)) {
+        $("#getcrown-btn").show();
+      } else {
+        $("#getcrown-btn").hide();
+      }
+    });
     $("#room-settings-btn").click(function (evt) {
-      if (gClient.channel && (gClient.isOwner())) {
+      if (gClient.channel && (gClient.isOwner() || gClient.permissions.chsetAnywhere)) {
         var settings = gClient.channel.settings;
         openModal("#room-settings");
         setTimeout(function () {
@@ -1686,12 +1756,12 @@ $(function () {
 
   // Get crown button
   $("#getcrown-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'admchown', _id: MPP.client.getOwnParticipant().id }]);
+    gClient.sendArray([{ m: 'chown', id: MPP.client.getOwnParticipant().id }]);
   });
 
   // Vanish or unvanish button
   $("#vanish-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'vanish', vanish: !gClient.getOwnParticipant().vanished }]);
+    gClient.sendArray([{ m: 'v', vanish: !gClient.getOwnParticipant().vanished }]);
   });
   gClient.on('participant update', part => {
     if (part._id === gClient.getOwnParticipant()._id) {
@@ -1727,17 +1797,17 @@ $(function () {
     }
   });
 
-//   function eb() {
-//     if(gClient.channel && gClient.channel._id.toLowerCase() === "test/fishing") {
-//       ebsprite.start(gClient);
-//     } else {
-//       ebsprite.stop();
-//     }
-//   }
-//   if(ebsprite) {
-//     gClient.on("ch", eb);
-//     eb();
-//   }
+  /*function eb() {
+    if(gClient.channel && gClient.channel._id.toLowerCase() === "test/fishing") {
+      ebsprite.start(gClient);
+    } else {
+      ebsprite.stop();
+    }
+  }
+  if(ebsprite) {
+    gClient.on("ch", eb);
+    eb();
+  }*/
 
   // Crownsolo notice
   gClient.on("ch", function (msg) {
@@ -2326,6 +2396,30 @@ $(function () {
             $(part.nameDiv).removeClass("muted-chat");
           });
       }
+      if (gIsDming && gDmParticipant._id === part._id) {
+        $('<div class="menu-item">End Direct Message</div>').appendTo(menu)
+          .on("mousedown touchstart", function (evt) {
+            gIsDming = false;
+            $('#chat-input')[0].placeholder = 'You can chat with this thing.';
+          });
+      } else {
+        $('<div class="menu-item">Direct Message</div>').appendTo(menu)
+          .on("mousedown touchstart", function (evt) {
+            if (!gKnowsHowToDm) {
+              localStorage.knowsHowToDm = true;
+              gKnowsHowToDm = true;
+              new Notification({
+                target: '#piano',
+                duration: 20000,
+                title: 'How to DM',
+                text: 'After you click the button to direct message someone, future chat messages will be sent to them instead of to everyone. To go back to talking in public chat, send a blank chat message, or click the button again.',
+              });
+            }
+            gIsDming = true;
+            gDmParticipant = part;
+            $('#chat-input')[0].placeholder = 'Direct messaging ' + part.name + '.';
+          });
+      }
       if (gCursorHides.indexOf(part._id) == -1) {
           $('<div class="menu-item">Hide Cursor</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
@@ -2357,20 +2451,42 @@ $(function () {
           $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
               if (confirm("Give room ownership to " + part.name + "?"))
-                gClient.sendArray([{ m: "chown", _id: part.id }]);
+                gClient.sendArray([{ m: "chown", id: part.id }]);
             });
         }
         $('<div class="menu-item kickban">Kickban</div>').appendTo(menu)
           .on("mousedown touchstart", function (evt) {
-            var minutes = prompt("How many minutes? (0-60)", "30");
+            var minutes = prompt("How many minutes? (0-300)", "30");
             if (minutes === null) return;
             minutes = parseFloat(minutes) || 0;
             var ms = minutes * 60 * 1000;
             gClient.sendArray([{ m: "kickban", _id: part._id, ms: ms }]);
           });
       }
-        if (MPP.client.getOwnParticipant().rank == "admin") {
-          $('<div class="menu-item give-crown">Give Crown</div>').appendTo(menu)
+      if (gClient.permissions.siteBan) {
+        $('<div class="menu-item site-ban">Site Ban</div>').appendTo(menu)
+          .on("mousedown touchstart", function (evt) {
+            openModal("#siteban");
+            setTimeout(function () {
+              $("#siteban input[name=id]").val(part._id);
+              $("#siteban input[name=reasonText]").val("Discrimination against others");
+              $("#siteban input[name=reasonText]").attr("disabled", true);
+              $("#siteban select[name=reasonSelect]").val("Discrimination against others");
+              $("#siteban input[name=durationNumber]").val(5);
+              $("#siteban input[name=durationNumber]").attr("disabled", false);
+              $("#siteban select[name=durationUnit]").val("hours");
+              $("#siteban textarea[name=note]").val("");
+              $("#siteban p[name=errorText]").text("")
+              if (gClient.permissions.siteBanAnyReason) {
+                $("#siteban select[name=reasonSelect] option[value=custom]").attr("disabled", false);
+              } else {
+                $("#siteban select[name=reasonSelect] option[value=custom]").attr("disabled", true);
+              }
+            }, 100);
+          });
+      }
+       if (MPP.client.getOwnParticipant().rank == "admin") {
+          $('<div class="menu-item give-crown">Give Crown(admin)</div>').appendTo(menu)
             .on("mousedown touchstart", function (evt) {
               if (confirm("Give room ownership to " + part.name + "?"))
                 gClient.sendArray([{ m: "admchown", _id: part.id }]);
@@ -2863,6 +2979,10 @@ $(function () {
 
       var durationUnit = $("#siteban select[name=durationUnit]").val();
       if (durationUnit === "permanent") {
+        if (!gClient.permissions.siteBanAnyDuration) {
+          $("#siteban p[name=errorText]").text("You don't have permission to ban longer than 1 month. Contact a higher staff to ban the user for longer.");
+          return;
+        }
         msg.permanent = true;
       } else {
         var factor = 0;
@@ -2880,7 +3000,7 @@ $(function () {
           $("#siteban p[name=errorText]").text("Invalid duration.");
           return;
         }
-        if (duration > 1000 * 60 * 60 * 24 * 30) {
+        if (duration > 1000 * 60 * 60 * 24 * 30 && !gClient.permissions.siteBanAnyDuration) {
           $("#siteban p[name=errorText]").text("You don't have permission to ban longer than 1 month. Contact a higher staff to ban the user for longer.");
           return;
         }
@@ -2990,47 +3110,6 @@ $(function () {
   ////////////////////////////////////////////////////////////////
 
   var chat = (function () {
-    var url_regex = new RegExp(
-      // protocol identifier (optional)
-      // short syntax // still required
-      "(?:(?:(?:https?|ftp):)?\\/\\/)" +
-      // user:pass BasicAuth (optional)
-      "(?:\\S+(?::\\S*)?@)?" +
-      "(?:" +
-      // IP address exclusion
-      // private & local networks
-      "(?!(?:10|127)(?:\\.\\d{1,3}){3})" +
-      "(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})" +
-      "(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})" +
-      // IP address dotted notation octets
-      // excludes loopback network 0.0.0.0
-      // excludes reserved space >= 224.0.0.0
-      // excludes network & broadcast addresses
-      // (first & last IP address of each class)
-      "(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])" +
-      "(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}" +
-      "(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))" +
-      "|" +
-      // host & domain names, may end with dot
-      // can be replaced by a shortest alternative
-      // (?![-_])(?:[-\\w\\u00a1-\\uffff]{0,63}[^-_]\\.)+
-      "(?:" +
-      "(?:" +
-      "[a-z0-9\\u00a1-\\uffff]" +
-      "[a-z0-9\\u00a1-\\uffff_-]{0,62}" +
-      ")?" +
-      "[a-z0-9\\u00a1-\\uffff]\\." +
-      ")+" +
-      // TLD identifier name, may end with dot
-      "(?:[a-z\\u00a1-\\uffff]{2,}\\.?)" +
-      ")" +
-      // port number (optional)
-      "(?::\\d{2,5})?" +
-      // resource path (optional)
-      "(?:[/?#]\\S*)?",
-      "ig"
-    );
-
     gClient.on("ch", function (msg) {
       if (msg.ch.settings.chat) {
         chat.show();
@@ -3193,17 +3272,8 @@ $(function () {
         var liString = '<li>';
 
         var isSpecialDm = false;
-        function tagColor(tag) {
-              if (typeof tag === 'object') return tag.color;
-              if (tag === 'BOT') return '#55f';
-              if (tag === 'OWNER') return '#a00';
-              if (tag === 'ADMIN') return '#f55';
-              if (tag === 'MOD') return '#0a0';
-              if (tag === 'MEDIA') return '#f5f';
-              return '#777';
-        }
+
         if (gShowTimestampsInChat) liString += '<span class="timestamp"/>';
-        console.log(msg)
 
         if (msg.m === 'dm') {
           if (msg.sender._id === gClient.user._id) { //sent dm
@@ -3265,16 +3335,8 @@ $(function () {
           else return match;
         });
 
-        // link formatting
-        message = message.replace(url_regex, match => {
-          var safe = $("<div>").text(match).html();
-          return `<a rel="noreferer noopener" target="_blank" class="chatLink" href="${safe}">${safe}</a>`;
-        });
-        if(msg.p.tag != undefined && msg.p.tag != "") {
-          message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
-        }
         //apply names, colors, ids
-        li.find(".message").html(message);
+        li.find(".message").html(marked.parseInline(message));
 
         if (msg.m === 'dm') {
           if (!gNoChatColors) li.find(".message").css("color", msg.sender.color || "white");
@@ -3701,7 +3763,7 @@ $(function () {
 
 
 
-  // AePI
+  // API
   window.MPP = {
     get press() { return press },
     set press(func) { press = func },
@@ -3964,7 +4026,6 @@ $(function () {
     }
   })();
 
-  
   (function () {
     if (window.location.hostname === "multiplayerpiano.com") {
       var button = document.getElementById("client-settings-btn");
@@ -4459,6 +4520,9 @@ $(function () {
 
 
 
+
+
+
   //confetti, to be removed after the 10th anniversary
   //source: https://www.cssscript.com/confetti-falling-animation/
 
@@ -4675,4 +4739,3 @@ $(function () {
     adsOn();
   }
 })();*/
-
