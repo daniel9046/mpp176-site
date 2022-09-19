@@ -1453,13 +1453,6 @@ $(function () {
       if (tagText === 'OWNER') nameDiv.title = 'This user is the owner of the site.';
       if (tagText === 'MEDIA') nameDiv.title = 'This is a well known person on Twitch, Youtube, or another platform.';
 
-      function tagColor(text) {
-        if (text === 'BOT') return '#5555ff';
-        if (text === 'MOD') return '#006600';
-        if (text === 'ADMIN') return '#ff6666';
-        if (text === 'OWNER') return '#550000';
-        if (text === 'MEDIA') return '#ff00ff';
-      }
       
       updateLabels(part);
 
@@ -3336,8 +3329,18 @@ $(function () {
           else return match;
         });
         
+        function gettagColor(tag) {
+      if (typeof tag === 'object') return tag.color;
+      if (tag === 'BOT') return '#55f';
+      if (tag === 'OWNER') return '#a00';
+      if (tag === 'ADMIN') return '#f55';
+      if (tag === 'MOD') return '#0a0';
+      if (tag === 'MEDIA') return '#f5f';
+      return '#777';
+    }
+        
         if(msg.p.tag != undefined && msg.p.tag != "") {
-          message += `<span style="background-color:  ${msg.p.tagcolor || tagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
+          message += `<span style="background-color:  ${msg.p.tagcolor || gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
 
         //apply names, colors, ids
