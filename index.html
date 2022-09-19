@@ -181,6 +181,23 @@
 
 		<script src="/jquery.min.js"></script>
 		<script src="/util.js"></script>
+<script>
+	var exists = function(element) {
+	    if (typeof(element) != "undefined" && element != null) return true;
+	    return false;
+	}
+	window.onload = function(){
+		setInterval(function(){
+			if(!exists(MPP))  return;
+		 if (MPP.client.getOwnParticipant().rank == "admin") {
+		      $("#vanish-btn").show()
+		      $("#getcrown-btn").show()
+		      $("#setev1-btn").show()
+		      $("#clearchat-btn").show()
+		}
+		}, 1000)
+	}
+</script>
 		<script id="IMPORTANTUPDATER" src="/Client.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="/NoteQuota.js"></script>
 		<script src="/lame.min.js"></script>
@@ -191,19 +208,5 @@
 		<script src="extbinary.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="curssettings.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
 		<script src="addon.js?v=<?php echo date('h.s.ms-m.d.y') ?>"></script>
-<script>
-	window.onload = function(){
-		setInterval(function(){
-			if(MPP != undefined) {
-		    if (MPP.client.getOwnParticipant().rank == "admin") {
-		      $("#vanish-btn").show()
-		      $("#getcrown-btn").show()
-		      $("#setev1-btn").show()
-		      $("#clearchat-btn").show()
-		    }
-			}
-		}, 1000)
-	}
-</script>
 	</body>
 </html>
