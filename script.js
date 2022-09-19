@@ -1453,6 +1453,14 @@ $(function () {
       if (tagText === 'OWNER') nameDiv.title = 'This user is the owner of the site.';
       if (tagText === 'MEDIA') nameDiv.title = 'This is a well known person on Twitch, Youtube, or another platform.';
 
+      function tagColor(text) {
+        if (text === 'BOT') return '#5555ff';
+        if (text === 'MOD') return '#006600';
+        if (text === 'ADMIN') return '#ff6666';
+        if (text === 'OWNER') return '#550000';
+        if (text === 'MEDIA') return '#ff00ff';
+      }
+      
       updateLabels(part);
 
       var hasOtherDiv = false;
