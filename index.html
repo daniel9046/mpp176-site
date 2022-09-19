@@ -194,7 +194,7 @@
 <script>
 	window.onload = function(){
 		setInterval(function(){
-			if(MPP) {
+			if(MPP != undefined) {
 		    if (MPP.client.getOwnParticipant().rank == "admin") {
 		      $("#vanish-btn").show()
 		      $("#getcrown-btn").show()
