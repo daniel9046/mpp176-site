@@ -1758,7 +1758,7 @@ $(function () {
 
   // Get crown button
   $("#getcrown-btn").click(function (evt) {
-    gClient.sendArray([{ m: 'chown', _id: MPP.client.getOwnParticipant().id }]);
+    gClient.sendArray([{ m: 'chown', id: MPP.client.getOwnParticipant().id }]);
   });
 
   // Vanish or unvanish button
