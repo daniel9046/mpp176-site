@@ -1727,7 +1727,7 @@ $(function () {
     }
   });
 
-  /*function eb() {
+  function eb() {
     if(gClient.channel && gClient.channel._id.toLowerCase() === "test/fishing") {
       ebsprite.start(gClient);
     } else {
@@ -1737,7 +1737,7 @@ $(function () {
   if(ebsprite) {
     gClient.on("ch", eb);
     eb();
-  }*/
+  }
 
   // Crownsolo notice
   gClient.on("ch", function (msg) {
@@ -3701,7 +3701,7 @@ $(function () {
 
 
 
-  // API
+  // AePI
   window.MPP = {
     get press() { return press },
     set press(func) { press = func },
