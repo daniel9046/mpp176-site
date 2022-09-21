@@ -1503,7 +1503,10 @@ $(function () {
         div.style.display = "none";
         part.cursorDiv = $("#cursors")[0].appendChild(div);
         $(part.cursorDiv).fadeIn(2000);
-
+        if (part.vanished == true) {
+        hasOtherDiv = true;
+        part.cursorDiv.style.display = "none";
+      }
         var div = document.createElement("div");
         div.className = "name";
         div.style.backgroundColor = part.color || "#777"
