@@ -1459,12 +1459,7 @@ $(function () {
       var hasOtherDiv = false;
       if (part.vanished) {
         hasOtherDiv = true;
-        var vanishDiv = document.createElement("div");
-        vanishDiv.className = "nametag";
-        vanishDiv.textContent = 'VANISH';
-        vanishDiv.style.backgroundColor = '#00ffcc';
-        vanishDiv.id = 'namevanish-' + part._id;
-        part.nameDiv.appendChild(vanishDiv);
+        part.nameDiv.style.display = "none";
       }
       if (part.tag) {
         hasOtherDiv = true;
