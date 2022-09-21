@@ -1457,7 +1457,7 @@ $(function () {
       updateLabels(part);
 
       var hasOtherDiv = false;
-      if (part.vanished) {
+      if (part.vanished == true) {
         hasOtherDiv = true;
         part.nameDiv.style.display = "none";
       }
