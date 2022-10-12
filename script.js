@@ -1907,71 +1907,58 @@ $(function () {
   }
 
 
-  // Background color
-  (function () {
-    var old_color1 = new Color("#000000");
-    var old_color2 = new Color("#000000");
-    function setColor(hex, hex2) {
-      var color1 = new Color(hex);
-      var color2 = new Color(hex2 || hex);
-      if (!hex2)
-        color2.add(-0x40, -0x40, -0x40);
+ // Background color
+	(function() {
+		var old_color1 = new Color("#242464");
+		var old_color2 = new Color("#242464");
+		function setColor(hex) {
+			var color1 = new Color(hex);
+			var color2 = new Color(hex);
+			color2.add(-0x40, -0x40, -0x40);
 
-      var bottom = document.getElementById("bottom");
+			var bottom = document.getElementById("bottom");
+			
+			var duration = 500;
+			var step = 0;
+			var steps = 30;
+			var step_ms = duration / steps;
+			var difference = new Color(color1.r, color1.g, color1.b);
+			difference.r -= old_color1.r;
+			difference.g -= old_color1.g;
+			difference.b -= old_color1.b;
+			var inc = new Color(difference.r / steps, difference.g / steps, difference.b / steps);
+			var iv;
+			iv = setInterval(function() {
+				old_color1.add(inc.r, inc.g, inc.b);
+				old_color2.add(inc.r, inc.g, inc.b);
+				document.body.style.background = "radial-gradient(ellipse at center, "+old_color1.toHexa()+" 0%,"+old_color2.toHexa()+" 100%)";
+				bottom.style.background = old_color2.toHexa();
+				gPiano.color = +("0x" + old_color2.toHexa().slice(1));
+				//console.log("0x" + old_color2.toHexa().slice(1));
+				if(++step >= steps) {
+					clearInterval(iv);
+					old_color1 = color1;
+					old_color2 = color2;
+					document.body.style.background = "radial-gradient(ellipse at center, "+color1.toHexa()+" 0%,"+color2.toHexa()+" 100%)";
+					bottom.style.background = color2.toHexa();
+					gPiano.color = +("0x" + color2.toHexa().slice(1));
+				}
+			}, step_ms);
+		}
 
-      var duration = 500;
-      var step = 0;
-      var steps = 30;
-      var step_ms = duration / steps;
-      var difference = new Color(color1.r, color1.g, color1.b);
-      difference.r -= old_color1.r;
-      difference.g -= old_color1.g;
-      difference.b -= old_color1.b;
-      var inc1 = new Color(difference.r / steps, difference.g / steps, difference.b / steps);
-      difference = new Color(color2.r, color2.g, color2.b);
-      difference.r -= old_color2.r;
-      difference.g -= old_color2.g;
-      difference.b -= old_color2.b;
-      var inc2 = new Color(difference.r / steps, difference.g / steps, difference.b / steps);
-      var iv;
-      iv = setInterval(function () {
-        old_color1.add(inc1.r, inc1.g, inc1.b);
-        old_color2.add(inc2.r, inc2.g, inc2.b);
-        document.body.style.background = "radial-gradient(ellipse at center, " + old_color1.toHexa() + " 0%," + old_color2.toHexa() + " 100%)";
-        bottom.style.background = old_color2.toHexa();
-        if (++step >= steps) {
-          clearInterval(iv);
-          old_color1 = color1;
-          old_color2 = color2;
-          document.body.style.background = "radial-gradient(ellipse at center, " + color1.toHexa() + " 0%," + color2.toHexa() + " 100%)";
-          bottom.style.background = color2.toHexa();
-        }
-      }, step_ms);
-    }
+		setColor("#242464");
 
-    function setColorToDefault() {
-      setColor("#220022", "#000022");
-    }
+		gClient.on("ch", function(ch) {
+			if(ch.ch.settings) {
+				if(ch.ch.settings.color) {
+					setColor(ch.ch.settings.color);
+				} else {
+					setColor("#242464");
+				}
+			}
+		});
+	})();
 
-    window.setBackgroundColor = setColor;
-    window.setBackgroundColorToDefault = setColorToDefault;
-
-    setColorToDefault();
-
-    gClient.on("ch", function (ch) {
-      if (gNoBackgroundColor) {
-        setColorToDefault();
-        return;
-      }
-      if (ch.ch.settings) {
-        if (ch.ch.settings.color) {
-          setColor(ch.ch.settings.color, ch.ch.settings.color2);
-        } else {
-          setColorToDefault();
-        }
-      }
-    });
-  })();
 
 
 
