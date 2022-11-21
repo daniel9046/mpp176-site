@@ -18,7 +18,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = "wss://8080-danielftost-mppserverpr-epgh4yyebfn.ws-us73.gitpod.io"; //main
+	this.uri = "wss://daniel9046-potential-space-parakeet-59r5x945jj7c7p9x-8080.preview.app.github.dev"; //main
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
