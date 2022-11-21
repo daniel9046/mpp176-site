@@ -3346,7 +3346,7 @@ $(function () {
       return '#777';
     }
         
-        if(msg.p.tag != undefined && msg.p.tag != "") {
+        if(msg.p.tag != undefined && msg.p.tag.text != "") {
           message += `<span style="background-color:  ${gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
 
