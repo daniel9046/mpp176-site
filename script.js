@@ -1488,7 +1488,7 @@ $(function () {
         var tagDiv = document.createElement("div");
         tagDiv.className = "nametag";
         tagDiv.textContent = tagText || "";
-        tagDiv.style.backgroundColor = tagColor(part.tag) || part.tagColor;
+        tagDiv.style.backgroundColor = tagColor(part.tag);
         tagDiv.id = 'nametag-' + part._id;
         part.nameDiv.appendChild(tagDiv);
       }
@@ -3347,7 +3347,7 @@ $(function () {
     }
         
         if(msg.p.tag != undefined && msg.p.tag != "") {
-          message += `<span style="background-color:  ${msg.p.tagColor || gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
+          message += `<span style="background-color:  ${gettagColor(msg.p.tag)};color:#ffffff;" class="nametag">${msg.p.tag}</span>`;
         }
 
         //apply names, colors, ids
