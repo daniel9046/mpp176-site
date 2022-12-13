@@ -18,7 +18,7 @@ function mixin(obj1, obj2) {
 
 function Client(uri) {
 	EventEmitter.call(this);
-	this.uri = "wss://s1.mpp176.tk:8443"; //main
+	this.uri = "wss://home.daniel9046.tk:8443"; //main
 	this.ws = undefined;
 	this.serverTimeOffset = 0;
 	this.user = undefined;
